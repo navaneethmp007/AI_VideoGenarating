@@ -1,0 +1,1351 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AI Video Studio — Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root{
+      --bg:#f3f4f6;
+      --card:#ffffff;
+      --muted:#69707a;
+      --accent:#00ad4a; /* green like sample */
+      --accent-hover:#009140;
+      --glass: rgba(255,255,255,0.7);
+      --radius:18px;
+      --shadow-sm: 0 4px 12px rgba(12,20,30,0.04);
+      --shadow-md: 0 8px 24px rgba(12,20,30,0.06);
+      --shadow-lg: 0 18px 40px rgba(12,20,30,0.12);
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      color-scheme: light;
+    }
+    
+    /* Animation keyframes */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes scaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+    
+    @keyframes shimmer {
+      0% {
+        background-position: -200px 0;
+      }
+      100% {
+        background-position: 200px 0;
+      }
+    }
+    
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(0, 173, 74, 0.4);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(0, 173, 74, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(0, 173, 74, 0);
+      }
+    }
+    
+    @keyframes gradientShift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+    *{box-sizing:border-box}
+    html,body{
+      height:100%;
+      margin:0;
+      background:var(--bg);
+      color:#222;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+    
+    /* Smooth scroll reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* header */
+    header{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:20px 40px;
+      background:linear-gradient(180deg,rgba(255,255,255,0.9),rgba(255,255,255,0.7));
+      position:sticky;
+      top:0;
+      backdrop-filter: blur(10px);
+      z-index:30;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+      transition: var(--transition-smooth);
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    header.scrolled {
+      padding: 15px 40px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      font-weight:700;
+      animation: slideInRight 0.8s ease-out 0.2s both;
+    }
+    
+    .logo .mark{
+      width:44px;
+      height:44px;
+      border-radius:10px;
+      background:linear-gradient(135deg, var(--accent), #2bb26b);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-weight:800;
+      transition: var(--transition-smooth);
+      animation: scaleIn 0.5s ease-out 0.3s both;
+    }
+    
+    .logo:hover .mark {
+      transform: rotate(5deg) scale(1.05);
+      background: linear-gradient(135deg, #2bb26b, var(--accent));
+    }
+    
+    nav{
+      display:flex;
+      gap:18px;
+      align-items:center;
+      animation: fadeIn 0.8s ease-out 0.4s both;
+    }
+    
+    nav a{
+      color:var(--muted);
+      text-decoration:none;
+      font-weight:600;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+    
+    nav a:not(:last-child):hover {
+      color: var(--accent);
+      background: rgba(0, 173, 74, 0.05);
+    }
+    
+    nav a:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 12px;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+    
+    nav a:not(:last-child):hover::after {
+      width: calc(100% - 24px);
+    }
+
+    /* hero */
+    .hero{
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:32px;
+      align-items:center;
+      padding:64px 6vw;
+      animation: fadeInUp 0.8s ease-out;
+    }
+    
+    .hero .content{
+      max-width:720px;
+    }
+    
+    .kicker{
+      color:var(--accent);
+      font-weight:700;
+      margin-bottom:12px;
+      display: inline-block;
+      padding: 6px 12px;
+      background: rgba(0, 173, 74, 0.1);
+      border-radius: 6px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+    
+    h1{
+      font-size:44px;
+      margin:0 0 14px;
+      line-height:1.02;
+      background: linear-gradient(90deg, #222, #444);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: fadeInUp 0.8s ease-out 0.3s both;
+    }
+    
+    p.lead{
+      color:var(--muted);
+      margin:0 0 28px;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+
+    /* search card */
+    .search-card{
+      background:linear-gradient(180deg,var(--card),#fbfbfb);
+      border-radius:14px;
+      padding:18px;
+      box-shadow:var(--shadow-md);
+      display:flex;
+      gap:12px;
+      align-items:center;
+      transition: var(--transition-smooth);
+      animation: fadeInUp 0.8s ease-out 0.5s both;
+      border: 1px solid rgba(16,24,36,0.05);
+    }
+    
+    .search-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .search-input{
+      flex:1;
+      padding:14px;
+      border-radius:10px;
+      background:var(--glass);
+      border:1px solid rgba(16,24,36,0.06);
+      cursor:pointer;
+      transition: var(--transition-smooth);
+      font-size: 16px;
+    }
+    
+    .search-input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 173, 74, 0.1);
+    }
+    
+    .search-cta{
+      background:var(--accent);
+      color:#fff;
+      padding:12px 16px;
+      border-radius:10px;
+      border:none;
+      font-weight:700;
+      cursor:pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .search-cta:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(0, 173, 74, 0.25);
+    }
+    
+    .search-cta:active {
+      transform: translateY(0);
+    }
+
+    /* right panel example stats */
+    .right-panel{
+      background:linear-gradient(180deg,#fff, #fbfffb);
+      border-radius:14px;
+      padding:20px;
+      box-shadow:var(--shadow-md);
+      animation: fadeInUp 0.8s ease-out 0.6s both;
+      border: 1px solid rgba(16,24,36,0.05);
+      transition: var(--transition-smooth);
+    }
+    
+    .right-panel:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .stat{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      margin-bottom:10px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.03);
+    }
+    
+    .stat:last-child {
+      border-bottom: none;
+    }
+    
+    .stat strong{
+      font-size:20px;
+      color: var(--accent);
+      transition: var(--transition-smooth);
+    }
+    
+    .stat:hover strong {
+      transform: scale(1.05);
+    }
+    
+    .stat small{color:var(--muted)}
+
+    /* sections */
+    .section{
+      padding:40px 6vw;
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    .section .section-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:end;
+      margin-bottom:18px;
+    }
+    
+    .section h2{
+      margin:0;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 40px;
+      height: 3px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    
+    .section:hover h2::after {
+      width: 80px;
+    }
+
+    /* videos grid */
+    .videos{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(240px,1fr));
+      gap:18px;
+    }
+    
+    .video-card{
+      background:var(--card);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:var(--shadow-md);
+      cursor:pointer;
+      transition: var(--transition-smooth);
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    
+    .video-card.animated {
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+    
+    .video-card:nth-child(1) { animation-delay: 0.1s; }
+    .video-card:nth-child(2) { animation-delay: 0.2s; }
+    .video-card:nth-child(3) { animation-delay: 0.3s; }
+    .video-card:nth-child(4) { animation-delay: 0.4s; }
+    .video-card:nth-child(5) { animation-delay: 0.5s; }
+    .video-card:nth-child(6) { animation-delay: 0.6s; }
+    
+    .video-card:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:var(--shadow-lg);
+    }
+    
+    .video-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, transparent 60%, rgba(0,0,0,0.4));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .video-card:hover::before {
+      opacity: 1;
+    }
+    
+    .thumb{
+      height:140px;
+      background-size:cover;
+      background-position:center;
+      transition: transform 0.5s ease;
+      position: relative;
+    }
+    
+    .video-card:hover .thumb {
+      transform: scale(1.05);
+    }
+    
+    .video-body{
+      padding:12px;
+      position: relative;
+      z-index: 2;
+      background: white;
+    }
+    
+    .meta{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    
+    .avatar{
+      width:36px;
+      height:36px;
+      border-radius:10px;
+      background:#eee;
+      transition: var(--transition-smooth);
+      border: 2px solid white;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .video-card:hover .avatar {
+      transform: scale(1.1);
+      border-color: var(--accent);
+    }
+    
+    .title{
+      font-weight:700;
+      margin:6px 0;
+      transition: var(--transition-smooth);
+    }
+    
+    .video-card:hover .title {
+      color: var(--accent);
+    }
+    
+    .views{
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    /* creators carousel */
+    .creators{
+      display:flex;
+      gap:12px;
+      overflow:auto;
+      padding:8px 0;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent) transparent;
+    }
+    
+    .creators::-webkit-scrollbar {
+      height: 6px;
+    }
+    
+    .creators::-webkit-scrollbar-track {
+      background: rgba(0,0,0,0.05);
+      border-radius: 10px;
+    }
+    
+    .creators::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 10px;
+    }
+    
+    .creator{
+      min-width:140px;
+      background:var(--card);
+      padding:12px;
+      border-radius:12px;
+      display:flex;
+      gap:12px;
+      align-items:center;
+      transition: var(--transition-smooth);
+      box-shadow: var(--shadow-sm);
+      animation: fadeInUp 0.5s ease-out;
+    }
+    
+    .creator:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .creator:nth-child(1) { animation-delay: 0.1s; }
+    .creator:nth-child(2) { animation-delay: 0.2s; }
+    .creator:nth-child(3) { animation-delay: 0.3s; }
+    .creator:nth-child(4) { animation-delay: 0.4s; }
+    .creator:nth-child(5) { animation-delay: 0.5s; }
+
+    /* prompts */
+    .prompts{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    
+    .prompt-chip{
+      background:#fff;
+      padding:10px 12px;
+      border-radius:999px;
+      box-shadow:var(--shadow-sm);
+      cursor:pointer;
+      border: none;
+      transition: var(--transition-smooth);
+      font-size: 14px;
+      font-weight: 500;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .prompt-chip::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s ease;
+    }
+    
+    .prompt-chip:hover {
+      background: var(--accent);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 16px rgba(0, 173, 74, 0.2);
+    }
+    
+    .prompt-chip:hover::before {
+      left: 100%;
+    }
+    
+    .prompt-chip:nth-child(1) { animation: fadeInUp 0.5s ease-out 0.1s both; }
+    .prompt-chip:nth-child(2) { animation: fadeInUp 0.5s ease-out 0.2s both; }
+    .prompt-chip:nth-child(3) { animation: fadeInUp 0.5s ease-out 0.3s both; }
+    .prompt-chip:nth-child(4) { animation: fadeInUp 0.5s ease-out 0.4s both; }
+    .prompt-chip:nth-child(5) { animation: fadeInUp 0.5s ease-out 0.5s both; }
+
+    footer{
+      padding:32px 6vw;
+      color:var(--muted);
+      font-size:14px;
+      text-align: center;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      animation: fadeIn 0.8s ease-out;
+    }
+    
+    footer a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+      margin: 0 8px;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(2,6,23,0.5);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:60;
+      padding:28px;
+      animation: fadeIn 0.3s ease-out;
+      backdrop-filter: blur(5px);
+    }
+    
+    .modal.open{
+      display:flex;
+    }
+    
+    .modal-card{
+      width:min(920px,98%);
+      background:var(--card);
+      border-radius:16px;
+      padding:22px;
+      box-shadow:0 30px 80px rgba(2,6,23,0.35);
+      max-height:90vh;
+      overflow:auto;
+      animation: scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    
+    .form-row{display:flex;gap:12px}
+    
+    textarea{
+      width:100%;
+      min-height:120px;
+      padding:12px;
+      border-radius:10px;
+      border:1px solid #eee;
+      transition: var(--transition-smooth);
+      font-family: inherit;
+      font-size: 16px;
+    }
+    
+    textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(0, 173, 74, 0.1);
+    }
+    
+    .file-drop{
+      border:2px dashed rgba(16,24,32,0.06);
+      padding:18px;
+      border-radius:10px;
+      text-align:center;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+    }
+    
+    .file-drop:hover, .file-drop.dragover {
+      border-color: var(--accent);
+      background: rgba(0, 173, 74, 0.03);
+    }
+    
+    .preview-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(90px,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    
+    .preview{
+      height:80px;
+      border-radius:8px;
+      background:#eee;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      transition: var(--transition-smooth);
+      position: relative;
+    }
+    
+    .preview:hover {
+      transform: scale(1.05);
+      box-shadow: var(--shadow-md);
+    }
+    
+    .preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .preview::after {
+      content: '×';
+      position: absolute;
+      top: 5px;
+      right: 5px;
+      width: 20px;
+      height: 20px;
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .preview:hover::after {
+      opacity: 1;
+    }
+    
+    /* Loading animation */
+    .loading-shimmer {
+      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+      background-size: 200px 100%;
+      animation: shimmer 1.5s infinite;
+    }
+    
+    /* Floating animation for attention */
+    .float-animation {
+      animation: float 3s ease-in-out infinite;
+    }
+    
+    .pulse-animation {
+      animation: pulse 2s infinite;
+    }
+
+    /* Gradient text for emphasis */
+    .gradient-text {
+      background: linear-gradient(90deg, var(--accent), #2bb26b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 3s ease infinite;
+      background-size: 200% 200%;
+    }
+
+    /* Progress bar for generation */
+    .progress-bar {
+      height: 4px;
+      background: rgba(0,0,0,0.1);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), #2bb26b);
+      width: 0%;
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    /* small screens */
+    @media (max-width:900px){
+      .hero{
+        grid-template-columns:1fr;
+        gap:20px;
+        padding:36px 4vw;
+      }
+      h1{
+        font-size:34px;
+      }
+      .right-panel{
+        order:3;
+      }
+      nav a:not(:last-child) {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <div class="mark">AV</div>
+      <div>
+        <div style="font-size:14px;letter-spacing:0.2px">AI Video Studio</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px">Generate videos from images + prompts</div>
+      </div>
+    </div>
+    <nav>
+      <a href="#videos">Top videos</a>
+      <a href="#creators">Creators</a>
+      <a href="#prompts">Prompts</a>
+      <a href="#" class="pulse-animation" style="background:var(--accent);color:#fff;padding:10px 14px;border-radius:10px;text-decoration:none">Create</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="content">
+        <div class="kicker float-animation">CREATE • INSPIRE • SHARE</div>
+        <h1>Turn your images + text into short <span class="gradient-text">AI videos</span></h1>
+        <p class="lead">Upload one or more images, enter a short prompt and our AI stitches them into cinematic short videos — ready to share on socials or download in high quality.</p>
+
+        <div class="search-card" role="button" aria-haspopup="dialog" id="open-search">
+          <input class="search-input" readonly placeholder="Describe the scene you want — e.g. 'Golden hour cityscape, slow dolly'" id="fakeSearch">
+          <button class="search-cta" id="open-search-cta">
+            <i class="fas fa-magic"></i> Create
+          </button>
+        </div>
+
+        <div style="margin-top:18px;display:flex;gap:10px;align-items:center; flex-wrap: wrap;">
+          <div style="display:flex;gap:8px;align-items:center">
+            <i class="fas fa-bolt" style="color: var(--accent);"></i>
+            <div style="font-weight:700">Fast:</div>
+            <div style="color:var(--muted);margin-left:6px">End-to-end in minutes</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;margin-left:18px">
+            <i class="fas fa-sliders-h" style="color: var(--accent);"></i>
+            <div style="font-weight:700">Customisable:</div>
+            <div style="color:var(--muted);margin-left:6px">Control pace, style & aspect</div>
+          </div>
+          <div style="display:flex;gap:8px;align-items:center;margin-left:18px">
+            <i class="fas fa-shield-alt" style="color: var(--accent);"></i>
+            <div style="font-weight:700">Secure:</div>
+            <div style="color:var(--muted);margin-left:6px">Your content is private</div>
+          </div>
+        </div>
+
+      </div>
+
+      <aside class="right-panel float-animation">
+        <div class="stat">
+          <div>
+            <small>Trending</small>
+            <div style="font-weight:800">Most viewed today</div>
+          </div>
+          <div><strong>41.2k</strong></div>
+        </div>
+        <div class="stat">
+          <div>
+            <small>Creators</small>
+            <div style="font-weight:800">Top creators</div>
+          </div>
+          <div><strong>1.2k</strong></div>
+        </div>
+
+        <div style="height:16px"></div>
+        <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Quick presets</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="prompt-chip">Cinematic drone</button>
+          <button class="prompt-chip">Retro VHS</button>
+          <button class="prompt-chip">Slow-mo portrait</button>
+        </div>
+      </aside>
+    </section>
+
+    <section id="videos" class="section">
+      <div class="section-head">
+        <div>
+          <h2>Top videos</h2>
+          <div style="color:var(--muted);margin-top:6px">Most watched on the site</div>
+        </div>
+        <div style="color:var(--muted);font-weight:600;cursor:pointer;transition: var(--transition-smooth);" id="seeAllVideos">
+          See all <i class="fas fa-arrow-right" style="margin-left: 4px;"></i>
+        </div>
+      </div>
+
+      <div class="videos" id="videosGrid">
+        <!-- JS will inject cards -->
+      </div>
+    </section>
+
+    <section id="creators" class="section">
+      <div class="section-head">
+        <h2>Top creators</h2>
+        <div style="color:var(--muted)">Creators to follow</div>
+      </div>
+      <div class="creators" id="creatorsRow">
+        <!-- creators injected -->
+      </div>
+    </section>
+
+    <section id="prompts" class="section">
+      <div class="section-head">
+        <h2>Top prompts</h2>
+        <div style="color:var(--muted)">Tried & loved by creators</div>
+      </div>
+      <div class="prompts" id="promptsRow">
+        <!-- prompts -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div style="margin-bottom: 12px;">
+      <a href="#">Terms</a> • 
+      <a href="#">Privacy</a> • 
+      <a href="#">Support</a> • 
+      <a href="#">API</a> • 
+      <a href="#">Pricing</a>
+    </div>
+    © AI Video Studio — made with <i class="fas fa-heart" style="color: #e74c3c;"></i> for creators worldwide
+  </footer>
+
+  <!-- Modal for prompt + uploads -->
+  <div class="modal" id="modal">
+    <div class="modal-card" role="dialog" aria-modal="true">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div>
+          <h3 style="margin:0">Create an AI video</h3>
+          <div style="color:var(--muted);font-size:13px">Upload images and write the prompt you'd like the model to follow.</div>
+        </div>
+        <button id="closeModal" style="background:none;border:none;font-weight:800;font-size:20px;cursor:pointer;transition: var(--transition-smooth);" class="pulse-animation">✕</button>
+      </div>
+
+      <div>
+        <label style="font-weight:700;display:block;margin-bottom:6px">Prompt</label>
+        <textarea id="promptText" placeholder="e.g. 'Wide-shot city at sunrise, gliding past neon signs, slow cinematic'">Cinematic travel montage, golden hour, gentle dolly</textarea>
+      </div>
+
+      <div style="margin-top:12px">
+        <label style="font-weight:700;display:block;margin-bottom:6px">Images</label>
+        <div class="file-drop" id="dropZone">
+          <i class="fas fa-cloud-upload-alt" style="font-size:24px;color:var(--accent);margin-bottom:8px;"></i><br>
+          Click or drop files here to upload (jpg/png) <br>
+          <small style="color:var(--muted)">You can upload 1–8 images — order defines sequence</small>
+          <input type="file" id="fileInput" accept="image/*" multiple style="display:none">
+        </div>
+        <div class="preview-grid" id="preview"></div>
+      </div>
+      
+      <div class="progress-bar" style="display:none;" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:18px">
+        <div style="color:var(--muted)">
+          <i class="fas fa-video"></i> Output: 720p / 16:9 • ≈10s
+        </div>
+        <div style="display:flex;gap:10px">
+          <button id="cancelBtn" style="background:#eee;border:none;padding:10px 14px;border-radius:10px;cursor:pointer;transition: var(--transition-smooth);">
+            Cancel
+          </button>
+          <button id="generateBtn" style="background:var(--accent);color:#fff;border:none;padding:10px 16px;border-radius:10px;font-weight:700;cursor:pointer;transition: var(--transition-smooth);">
+            <i class="fas fa-play-circle"></i> Generate video
+          </button>
+        </div>
+      </div>
+
+      <div id="genStatus" style="margin-top:12px;color:var(--muted);font-size:13px;display:none"></div>
+    </div>
+  </div>
+
+  <script>
+    // Wait for DOM to load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Header scroll effect
+      const header = document.querySelector('header');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) {
+          header.classList.add('scrolled');
+        } else {
+          header.classList.remove('scrolled');
+        }
+        
+        // Reveal animations on scroll
+        const reveals = document.querySelectorAll('.reveal');
+        reveals.forEach(element => {
+          const windowHeight = window.innerHeight;
+          const elementTop = element.getBoundingClientRect().top;
+          const elementVisible = 150;
+          
+          if (elementTop < windowHeight - elementVisible) {
+            element.classList.add('active');
+          }
+        });
+      });
+      
+      // Trigger initial scroll check
+      window.dispatchEvent(new Event('scroll'));
+      
+      // Add animation classes to video cards after load
+      setTimeout(() => {
+        const videoCards = document.querySelectorAll('.video-card');
+        videoCards.forEach(card => {
+          card.classList.add('animated');
+        });
+      }, 300);
+
+      // sample data
+      const videos = [
+        {id:1,title:'Neon Nights — City Timelapse',thumb:'https://images.unsplash.com/photo-1504691342899-79e1f3f1b6f4?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=1',views:41230,creator:'MayaAI'},
+        {id:2,title:'Coastal Drive — Sunrise',thumb:'https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=2',views:31240,creator:'FluxLab'},
+        {id:3,title:'Vintage Home Movie — VHS',thumb:'https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=3',views:28900,creator:'RetroGen'},
+        {id:4,title:'Portrait Motion — Slow-mo',thumb:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=4',views:24020,creator:'Sora'},
+        {id:5,title:'Abstract Shapes — Animated',thumb:'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=5',views:19640,creator:'LoopForge'},
+        {id:6,title:'Space Walk — Mini Film',thumb:'https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?q=80&w=1200&auto=format&fit=crop&ixlib=rb-4.0.3&s=6',views:18500,creator:'AstroAI'}
+      ];
+
+      const creators = [
+        {name:'MayaAI', avatar:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=200'},
+        {name:'FluxLab', avatar:'https://images.unsplash.com/photo-1545996124-ff2f4c2b1a1a?q=80&w=200'},
+        {name:'RetroGen', avatar:'https://images.unsplash.com/photo-1547425260-76bcadfb4f2c?q=80&w=200'},
+        {name:'Sora', avatar:'https://images.unsplash.com/photo-1544006659-f0b21884ce1d?q=80&w=200'},
+        {name:'LoopForge', avatar:'https://images.unsplash.com/photo-1545996124-ff2f4c2b1a1a?q=80&w=200'}
+      ];
+
+      const prompts = [
+        'Golden hour cinematic drone',
+        'Retro film – grain + vignetting',
+        'Slow dolly cinematic portrait',
+        'Hyperlapse city to beach',
+        'Moody noir short scene'
+      ];
+
+      // render videos
+      const videosGrid = document.getElementById('videosGrid');
+      videos.forEach(v=>{
+        const card = document.createElement('article');
+        card.className='video-card reveal';
+        card.innerHTML = `
+          <div class='thumb' style="background-image:url('${v.thumb}')"></div>
+          <div class='video-body'>
+            <div class='meta'>
+              <div class='avatar' style="background-image:url('https://api.dicebear.com/6.x/identicon/svg?seed=${encodeURIComponent(v.creator)}');background-size:cover"></div>
+              <div style='flex:1'>
+                <div class='title'>${v.title}</div>
+                <div class='views'>${v.creator} • ${v.views.toLocaleString()} views</div>
+              </div>
+              <div style='margin-left:8px;align-self:flex-start'><i class="fas fa-play-circle" style="color: var(--accent);"></i></div>
+            </div>
+          </div>`;
+        card.addEventListener('click', ()=>openVideo(v));
+        videosGrid.appendChild(card);
+      })
+
+      function openVideo(v){
+        // Add animation effect to the clicked card
+        const clickedCard = event.currentTarget;
+        clickedCard.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          clickedCard.style.transform = '';
+        }, 200);
+        
+        // Open modal
+        document.getElementById('modal').classList.add('open');
+        document.getElementById('promptText').value = `Create a video like "${v.title}" - cinematic, professional grade`;
+        
+        // Add a subtle animation to the modal
+        const modalCard = document.querySelector('.modal-card');
+        modalCard.style.animation = 'none';
+        setTimeout(() => {
+          modalCard.style.animation = 'scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        }, 10);
+      }
+
+      // creators
+      const creatorsRow = document.getElementById('creatorsRow');
+      creators.forEach(c=>{
+        const el = document.createElement('div'); 
+        el.className='creator reveal';
+        el.innerHTML = `
+          <img src='${c.avatar}' style='width:52px;height:52px;border-radius:10px;object-fit:cover'>
+          <div>
+            <div style='font-weight:800'>${c.name}</div>
+            <div style='color:var(--muted);font-size:13px'>Creator • 1.2k followers</div>
+          </div>`;
+        creatorsRow.appendChild(el);
+      })
+
+      // prompts
+      const promptsRow = document.getElementById('promptsRow');
+      prompts.forEach(p=>{
+        const b = document.createElement('button'); 
+        b.className='prompt-chip reveal';
+        b.innerHTML = `<i class="fas fa-sparkles" style="margin-right: 6px; font-size: 12px;"></i> ${p}`;
+        b.addEventListener('click', ()=>{
+          // Add click animation
+          b.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            b.style.transform = '';
+          }, 200);
+          
+          document.getElementById('modal').classList.add('open');
+          document.getElementById('promptText').value = p + " - cinematic, professional grade, 4K quality";
+        });
+        promptsRow.appendChild(b);
+      })
+
+      // "See all" button animation
+      document.getElementById('seeAllVideos').addEventListener('click', function() {
+        this.style.transform = 'translateX(5px)';
+        this.style.color = 'var(--accent)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 300);
+        
+        // Scroll to top of videos section
+        document.getElementById('videos').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // modal interactions
+      const modal = document.getElementById('modal');
+      const openSearch = document.getElementById('open-search');
+      const openSearchCta = document.getElementById('open-search-cta');
+      
+      openSearch.addEventListener('click', ()=> {
+        modal.classList.add('open');
+        // Add focus to textarea
+        setTimeout(() => {
+          document.getElementById('promptText').focus();
+        }, 300);
+      });
+      
+      openSearchCta.addEventListener('click', ()=> {
+        // Button click animation
+        openSearchCta.style.transform = 'scale(0.95)';
+        setTimeout(() => {
+          openSearchCta.style.transform = '';
+        }, 200);
+        
+        modal.classList.add('open');
+        setTimeout(() => {
+          document.getElementById('promptText').focus();
+        }, 300);
+      });
+      
+      document.getElementById('closeModal').addEventListener('click', ()=> closeModal());
+      document.getElementById('cancelBtn').addEventListener('click', ()=> closeModal());
+
+      function closeModal(){
+        // Add closing animation
+        const modalCard = document.querySelector('.modal-card');
+        modalCard.style.animation = 'scaleIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) reverse';
+        
+        setTimeout(() => {
+          modal.classList.remove('open');
+          modalCard.style.animation = '';
+          document.getElementById('preview').innerHTML='';
+          document.getElementById('genStatus').style.display='none';
+          document.getElementById('progressBar').style.display='none';
+        }, 200);
+      }
+
+      // file drag & drop
+      const dropZone = document.getElementById('dropZone');
+      const fileInput = document.getElementById('fileInput');
+      const preview = document.getElementById('preview');
+
+      dropZone.addEventListener('click', ()=> {
+        fileInput.click();
+        // Add click animation
+        dropZone.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          dropZone.style.transform = '';
+        }, 200);
+      });
+      
+      dropZone.addEventListener('dragover', e=>{ 
+        e.preventDefault(); 
+        dropZone.classList.add('dragover');
+      });
+      
+      dropZone.addEventListener('dragleave', e=>{ 
+        dropZone.classList.remove('dragover'); 
+      });
+      
+      dropZone.addEventListener('drop', e=>{ 
+        e.preventDefault(); 
+        dropZone.classList.remove('dragover'); 
+        handleFiles(e.dataTransfer.files);
+        
+        // Add success animation
+        dropZone.innerHTML = `<i class="fas fa-check-circle" style="color: var(--accent); font-size: 24px; margin-bottom: 8px;"></i><br>Files uploaded successfully!`;
+        dropZone.style.borderColor = 'var(--accent)';
+        dropZone.style.backgroundColor = 'rgba(0, 173, 74, 0.05)';
+        
+        setTimeout(() => {
+          dropZone.innerHTML = `<i class="fas fa-cloud-upload-alt" style="font-size:24px;color:var(--accent);margin-bottom:8px;"></i><br>Click or drop files here to upload (jpg/png) <br><small style="color:var(--muted)">You can upload 1–8 images — order defines sequence</small>`;
+          dropZone.style.borderColor = '';
+          dropZone.style.backgroundColor = '';
+        }, 2000);
+      });
+      
+      fileInput.addEventListener('change', ()=> {
+        handleFiles(fileInput.files);
+      });
+
+      function handleFiles(files){
+        preview.innerHTML='';
+        const arr = Array.from(files).slice(0,8);
+        arr.forEach(f=>{
+          if(!f.type.startsWith('image/')) return;
+          const reader = new FileReader();
+          reader.onload = (ev)=>{
+            const d = document.createElement('div'); 
+            d.className='preview';
+            d.innerHTML = `<img src='${ev.target.result}' style='width:100%;height:100%;object-fit:cover'>`;
+            
+            // Add click to remove functionality
+            d.addEventListener('click', function(e) {
+              if(e.target.tagName === 'IMG') return;
+              this.style.transform = 'scale(0)';
+              this.style.opacity = '0';
+              setTimeout(() => {
+                this.remove();
+              }, 300);
+            });
+            
+            preview.appendChild(d);
+            
+            // Add entrance animation
+            setTimeout(() => {
+              d.style.transform = 'scale(1)';
+              d.style.opacity = '1';
+            }, 10);
+          }
+          reader.readAsDataURL(f);
+        })
+      }
+
+      // generate (demo only)
+      document.getElementById('generateBtn').addEventListener('click', ()=>{
+        const prompt = document.getElementById('promptText').value.trim();
+        if(!prompt) {
+          // Shake animation for empty prompt
+          const promptText = document.getElementById('promptText');
+          promptText.style.borderColor = '#e74c3c';
+          promptText.style.transform = 'translateX(5px)';
+          setTimeout(() => {
+            promptText.style.transform = 'translateX(-5px)';
+          }, 100);
+          setTimeout(() => {
+            promptText.style.transform = 'translateX(0)';
+            promptText.style.borderColor = '';
+          }, 200);
+          return;
+        }
+        
+        const hasImages = preview.children.length>0;
+        if(!hasImages) {
+          // Shake animation for empty images
+          const dropZone = document.getElementById('dropZone');
+          dropZone.style.borderColor = '#e74c3c';
+          dropZone.style.transform = 'translateY(5px)';
+          setTimeout(() => {
+            dropZone.style.transform = 'translateY(-5px)';
+          }, 100);
+          setTimeout(() => {
+            dropZone.style.transform = 'translateY(0)';
+            dropZone.style.borderColor = '';
+          }, 200);
+          return;
+        }
+
+        // Button click animation
+        const generateBtn = document.getElementById('generateBtn');
+        generateBtn.style.transform = 'scale(0.95)';
+        generateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+        setTimeout(() => {
+          generateBtn.style.transform = '';
+        }, 200);
+
+        // show queued status
+        const status = document.getElementById('genStatus');
+        const progressBar = document.getElementById('progressBar');
+        const progressFill = document.getElementById('progressFill');
+        
+        status.style.display='block'; 
+        status.innerHTML = '<i class="fas fa-cog fa-spin"></i> Preparing assets...';
+        progressBar.style.display='block';
+        progressFill.style.width = '10%';
+
+        // simulate generation progress
+        let progress = 10;
+        const progressInterval = setInterval(() => {
+          progress += Math.random() * 15;
+          if(progress > 100) progress = 100;
+          progressFill.style.width = progress + '%';
+          
+          if(progress < 30) {
+            status.innerHTML = '<i class="fas fa-upload"></i> Uploading to AI engine...';
+          } else if(progress < 60) {
+            status.innerHTML = '<i class="fas fa-film"></i> Rendering frames...';
+          } else if(progress < 90) {
+            status.innerHTML = '<i class="fas fa-magic"></i> Applying effects...';
+          } else {
+            status.innerHTML = '<i class="fas fa-check-circle" style="color: var(--accent);"></i> Finishing touches...';
+          }
+          
+          if(progress >= 100) {
+            clearInterval(progressInterval);
+            setTimeout(() => {
+              status.innerHTML = '<i class="fas fa-check-circle" style="color: var(--accent);"></i> Your video is ready!';
+              generateBtn.innerHTML = '<i class="fas fa-download"></i> Download Video';
+              generateBtn.style.background = 'linear-gradient(90deg, var(--accent), #2bb26b)';
+              generateBtn.onclick = function() {
+                alert('Video downloaded (demo). In a real app, the generated file would start downloading.');
+                closeModal();
+              };
+              
+              // Add confetti effect simulation
+              const modalCard = document.querySelector('.modal-card');
+              modalCard.style.boxShadow = '0 0 30px rgba(0, 173, 74, 0.3)';
+              setTimeout(() => {
+                modalCard.style.boxShadow = '';
+              }, 1000);
+            }, 500);
+          }
+        }, 300);
+      });
+
+      // small UX: press Esc to close
+      window.addEventListener('keydown', (e)=>{ 
+        if(e.key==='Escape') closeModal(); 
+      });
+      
+      // Add hover effect to nav CTA button
+      const navCta = document.querySelector('nav a:last-child');
+      navCta.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-2px)';
+      });
+      
+      navCta.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+      });
+      
+      // Initialize all reveal elements
+      const reveals = document.querySelectorAll('.reveal');
+      reveals.forEach(element => {
+        element.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
